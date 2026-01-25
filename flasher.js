@@ -451,7 +451,7 @@ async function fastbootCommand(device, command) {
 async function fastbootGetvar(device, name) {
     const res = await fastbootCommand(device, "getvar:" + name);
     if (res[0] !== "OKAY") {
-        console.error(res[1]);
+        console.error("getvar (" + name + ") failed with: " + res[1]);
         return undefined;
     }
     return res[1];
