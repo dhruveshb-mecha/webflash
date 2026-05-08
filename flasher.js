@@ -120,6 +120,12 @@ function sortRelease(a, b) {
     return ((nameA < nameB) ? -1 : ((nameA > nameB) ? 1 : 0));
 }
 
+function sortVersion(a, b) {
+  const nameA = a['name'];
+  const nameB = b['name'];
+  return ((nameA > nameB) ? -1 : ((nameA < nameB) ? 1 : 0));
+}
+
 function filterReleases(codename) {
     let result = [];
     const releases = bpo.releases;
@@ -222,12 +228,10 @@ async function runScript(device, di, image, script) {
                 ss_up.innerHTML = 'Unpack';
                 substeps.appendChild(ss_up);
 
-
                 const ss_flash = document.createElement('LI');
                 ss_flash.innerHTML = 'Flash';
                 ss_flash.classList.add('progress-step');
                 substeps.appendChild(ss_flash);
-
 
                 const dlprogress = document.createElement('PROGRESS');
                 const flashprogress = document.createElement('PROGRESS');
@@ -259,7 +263,6 @@ async function runScript(device, di, image, script) {
                             controller.close();
                         }
                     }));
-
 
                     const reader = new xzwasm.XzReadableStream(res.body);
                     await fastbootFlash(device, step['partition'], reader, rawSize, function (progress) {
@@ -332,32 +335,28 @@ function selectDevice(event) {
     const releases = filterReleases(codename);
     releases.sort(sortRelease);
     releases.reverse();
-    let latestRelease = null;
-    if (releases.length > 1) {
-        latestRelease = releases[1]['name'];
-    }
     let edgeUI = new Set();
     let stableUI = new Set();
-
     for (let k = 0; k < releases.length; k++) {
         for (let i = 0; i < releases[k]['interfaces'].length; i++) {
             const IntfName = releases[k]['interfaces'][i]['name'];
             const IntfPrettyName = releases[k]['interfaces'][i].pretty_name;
 
             let realImages = {};
-            for (let j = 0; j < releases[k]['interfaces'][i]['images'].length; j++) {
-                const image = releases[k]['interfaces'][i]['images'][j];
+            const interfaceImages = releases[k]['interfaces'][i]['images'];
+            interfaceImages.sort(sortVersion);
+            for (let j = 0; j < interfaceImages.length; j++) {
+                const image = interfaceImages[j];
                 const part = image['name'].split(codename);
                 if (!(part[0] in realImages)) {
                     realImages[part[0]] = {};
                 }
                 realImages[part[0]][part[1]] = image;
             }
-            for (let key in realImages) {
 
+            for (let key in realImages) {
                 // The filenames should be fully unique
                 allImages[key] = realImages[key];
-
                 if (k === 0) {
                     // Edge images
                     if (!edgeUI.has(IntfName)) {
@@ -403,7 +402,6 @@ function selectDevice(event) {
                         latestStableTable.appendChild(stable_row);
                     }
                 }
-
                 const image = realImages[key][Object.keys(realImages[key])[0]];
                 let row = document.createElement('TR');
                 oldTable.appendChild(row);
@@ -430,11 +428,8 @@ function selectDevice(event) {
 
                 td_action.appendChild(btn);
             }
-
         }
     }
-
-
 }
 
 async function fastbootCheckResponse(device) {
@@ -667,7 +662,6 @@ async function onConnectDevice(device) {
         unlocked = false;
     }
 
-
     let codename = null;
     let codenames = [];
     for (let i = 0; i < deviceinfo.length; i++) {
@@ -740,7 +734,6 @@ function onDisonnect(event) {
     }
     console.log('disconnect', event);
 }
-
 
 document.addEventListener("DOMContentLoaded", async function () {
     if (navigator.usb === undefined) {
