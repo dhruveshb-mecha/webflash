@@ -1,0 +1,287 @@
+a {
+    color: black;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+    color: #0d8000;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.notes {
+    list-style: circle;
+    padding-left: 20px;
+}
+
+body {
+    display: grid;
+    grid-template-areas: ". header ."
+                         ". main   ."
+                         ". footer .";
+    grid-template-columns: auto minmax(360px, 1024px) auto;
+    margin: 0px;
+
+    background: #f5f5f5;
+    font-family: sans-serif;
+    font-size: 13pt;
+}
+
+/* HEADER */
+.header {
+    grid-area: header;
+    display: grid;
+    grid-template-areas: "logo .   ."
+                         "logo .   badge"
+                         "logo .   ."
+                         "nav  nav powered_by"; /* class: header-bottom */
+    grid-template-columns: auto 1fr auto;
+    background: #222;
+}
+
+.header-bottom {
+    background: lightgray;
+}
+
+.header-bottom a {
+    padding: 10px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.header-bottom a:hover {
+    background: white;
+}
+
+.nav {
+    grid-area: nav;
+}
+
+.powered-by {
+    grid-area: powered_by;
+    color: gray;
+    background: lightgray;
+    text-align: right;
+}
+
+.sourcehut-builds {
+    color: #dc3545;
+}
+
+.badge {
+    grid-area: badge;
+    margin-right: 30px;
+}
+.badge img {
+    height: 30pt;
+}
+
+/* HEADER: LOGO GRID */
+.logo {
+    grid-area: logo;
+    display: grid;
+    align-items: center;
+    grid-template-areas: "logo-img logo-span";
+    grid-template-columns: 90px 1fr;
+    padding: 10px 0px 15px;
+    margin-left: 30px;
+    min-height: 90px;
+
+    text-decoration: none;
+}
+
+.logo:hover {
+    text-decoration: none;
+}
+
+.logo img {
+    grid-area: logo-img;
+
+    width: 75px;
+    height: 75px;
+    filter: drop-shadow(0 0 7px rgba(0,0,0,0.3));
+}
+
+.logo span {
+    grid-area: logo-span;
+    font-size: 25pt;
+
+    text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+
+/* MAIN */
+main {
+    grid-area: main;
+    background: white;
+    padding: 0px 10px 30px;
+}
+
+.h, .h3 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 20pt;
+    padding: 5px 0px;
+    margin: 5px 0px;
+}
+.h {
+    margin-top: 15px;
+}
+.h3 {
+    font-size: 14pt;
+}
+
+.toc {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.toc td:nth-child(1){
+    text-align: right;
+}
+.toc td {
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+}
+.toc a {
+    text-decoration: underline;
+}
+
+.toc-grid {
+    display: grid;
+    grid-template-areas: "pkgs imgs";
+    grid-template-columns: auto auto;
+}
+.toc-grid-pkgs {
+    grid-area: pkgs;
+}
+.toc-grid-imgs {
+    grid-area: imgs;
+}
+
+.time {
+    color: gray
+}
+.branch {
+    color: darkgreen;
+}
+.arch {
+    color: darkred;
+}
+.pkgname {
+    color: darkcyan;
+}
+.version {
+    color: purple;
+}
+.device {
+    color: darkblue;
+}
+.ui {
+    color: purple;
+}
+
+.job-log, .img-dir {
+    color: gray;
+}
+
+.commit {
+    font-family: monospace;
+}
+
+/* FOOTER */
+footer {
+    grid-area: footer;
+    display: grid;
+    grid-template-areas: "source . copyright";
+    grid-template-columns: auto 1fr auto;
+    background: lightgray;
+    padding: 10px;
+}
+footer, footer a {
+    color: gray;
+}
+footer .source {
+    grid-area: source;
+}
+footer .copyright {
+    grid-area: copyright;
+}
+
+/* RESPONSIVENESS */
+@media screen and (max-width: 710px) {
+    .header {
+        grid-template-areas: "logo"
+                             "badge"
+                             "nav"
+                             "powered_by";
+        grid-template-columns: 100%;
+    }
+    .logo {
+        margin: auto;
+    }
+    .badge {
+        margin: 0px auto 30px;
+    }
+    .powered-by, .nav {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .toc-grid {
+	    grid-template-areas: "pkgs"
+	    			 "imgs";
+    }
+    .toc-grid-imgs {
+            margin-top: 20px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #232729;
+        color: white;
+    }
+    main {
+        background-color: #2c3133;
+    }
+    a {
+        color: white;
+    }
+    .header-bottom a:hover {
+        color: #00b700;
+        background-color: #2c3133;
+    }
+    .header-bottom {
+        background: inherit;
+    }
+    .branch {
+        color: #00b700;
+    }
+    .arch {
+        color: #dc3545;
+    }
+    .pkgname {
+        color: #00abff;
+    }
+    .version {
+        color: violet;
+    }
+    .ui {
+        color: violet;
+    }
+    .job-log, .img-dir, .time {
+        color: #a4a4a4;
+    }
+    footer {
+        background: #222;
+    }
+    .toc td {
+        border: 1px solid #a4a4a4;
+    }
+}

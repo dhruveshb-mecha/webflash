@@ -1,9 +1,9 @@
 # WebFlash
 
-This is a WebUSB based postmarketOS flasher. It tries to guess which device is
+This is a WebUSB based Nura flasher. It tries to guess which device is
 attached by probing fastboot and shows a dropdown if the result is inconclusive.
 
-The images are fetched from images.postmarketos.org and decompressed with xzwasm. 
+The images are fetched from images.nura.eco and decompressed with xzwasm.
 
 ## License
 

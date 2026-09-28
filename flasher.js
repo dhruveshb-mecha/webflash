@@ -772,7 +772,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    fetch('https://images.postmarketos.org/bpo/index.json').then(function (response) {
+    fetch('https://images.nura.eco/bpo/index.json').then(function (response) {
         return response.json();
     }).then(function (data) {
         bpo = data;
@@ -785,7 +785,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const row = document.createElement('TR');
         const td_name = document.createElement('TD');
         const name_link = document.createElement('A');
-        name_link.href = 'https://wiki.postmarketos.org/wiki/' + di['name'];
+        name_link.href = 'https://wiki.nura.eco/wiki/' + di['name'];
         name_link.innerText = di['nicename'];
         td_name.appendChild(name_link);
         row.appendChild(td_name);
